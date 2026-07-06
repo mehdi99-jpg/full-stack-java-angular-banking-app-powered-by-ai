@@ -64,7 +64,10 @@ public class EBankingAppApplication {
                     accountOperation.setBankAccount(acc);
                     accountOperationRepository.save(accountOperation);
                 }
+
+
             });
+
 
         };
     }
