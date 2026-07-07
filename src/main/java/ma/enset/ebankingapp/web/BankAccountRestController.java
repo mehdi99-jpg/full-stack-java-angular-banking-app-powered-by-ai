@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import ma.enset.ebankingapp.dtos.AccountHistoryDTO;
 import ma.enset.ebankingapp.dtos.AccountOperationDTO;
 import ma.enset.ebankingapp.dtos.BankAccountDTO;
+import ma.enset.ebankingapp.dtos.CreditDTO;
 import ma.enset.ebankingapp.dtos.DebitDTO;
 import ma.enset.ebankingapp.entities.BankAccount;
 import ma.enset.ebankingapp.exceptions.BalanceNotSufficentException;
@@ -44,5 +45,11 @@ public class BankAccountRestController {
     public DebitDTO debit(@RequestBody DebitDTO debitDTO) throws BankAccountNotFoundException, BalanceNotSufficentException {
         this.bankAccountService.debit(debitDTO.getAccountId(), debitDTO.getAmount(), debitDTO.getDescription());
         return debitDTO;
+    }
+
+    @PostMapping("/accounts/credit")
+    public CreditDTO credit(@RequestBody CreditDTO creditDTO) throws BankAccountNotFoundException, BalanceNotSufficentException {
+        this.bankAccountService.credit(creditDTO.getAccountId(), creditDTO.getAmount(), creditDTO.getDescription());
+        return creditDTO;
     }
 }
