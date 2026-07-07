@@ -13,6 +13,8 @@ import ma.enset.ebankingapp.mappers.BankAccountMapperImpl;
 import ma.enset.ebankingapp.repositories.AccountOperationRepository;
 import ma.enset.ebankingapp.repositories.BankAccountRepository;
 import ma.enset.ebankingapp.repositories.CustomerRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -186,5 +188,24 @@ public class BankAccountServiceImpl implements BankAccountService{
         log.info("list all account operations of an account by its id");
       List<AccountOperation> accountOperations  =  accountOperationRepository.findByBankAccountId(accountId);
         return accountOperations.stream().map(op-> bankAccountMapper.fromAccountOperation(op)).collect(Collectors.toList());
+    }
+
+    @Override
+    public AccountHistoryDTO getAccountHistory(String accountId, int page, int size) throws BankAccountNotFoundException {
+        BankAccount bankAccount=bankAccountRepository.findById(accountId).orElse(null);
+        if(bankAccount == null){
+            throw new BankAccountNotFoundException("account not found");
+        }
+        Page<AccountOperation> accountOperations =  accountOperationRepository.findByBankAccountId(accountId, PageRequest.of(page,size));
+        AccountHistoryDTO accountHistoryDTO = new AccountHistoryDTO();
+       List<AccountOperationDTO> accountOperationDTOList = accountOperations.getContent().stream().map(op->
+               bankAccountMapper.fromAccountOperation(op)).collect(Collectors.toList());
+        accountHistoryDTO.setAccountOperationDTOList(accountOperationDTOList);
+        accountHistoryDTO.setAccountId(bankAccount.getId());
+        accountHistoryDTO.setBalance(bankAccount.getBalance());
+        accountHistoryDTO.setCurrentPage(page);
+        accountHistoryDTO.setPageSize(size);
+        accountHistoryDTO.setTotalPages(accountOperations.getTotalPages());
+        return accountHistoryDTO;
     }
 }
