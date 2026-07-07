@@ -52,7 +52,7 @@ public class EBankingAppApplication {
                 } catch (CustomerNotFoundException e) {
                     e.printStackTrace();
                 } catch (BankAccountNotFoundException | BalanceNotSufficentException e){
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
                 }
             });
         };
