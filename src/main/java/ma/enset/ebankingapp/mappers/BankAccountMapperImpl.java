@@ -1,15 +1,21 @@
 package ma.enset.ebankingapp.mappers;
 
+import ma.enset.ebankingapp.dtos.AccountHistoryDTO;
 import ma.enset.ebankingapp.dtos.AccountOperationDTO;
 import ma.enset.ebankingapp.dtos.CurrentBankAccountDTO;
 import ma.enset.ebankingapp.dtos.CustomerDTO;
 import ma.enset.ebankingapp.dtos.SavingBankAccountDTO;
 import ma.enset.ebankingapp.entities.AccountOperation;
+import ma.enset.ebankingapp.entities.BankAccount;
 import ma.enset.ebankingapp.entities.CurrentAccount;
 import ma.enset.ebankingapp.entities.Customer;
 import ma.enset.ebankingapp.entities.SavingAccount;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BankAccountMapperImpl {
@@ -65,6 +71,17 @@ public class BankAccountMapperImpl {
        return accountOperationDTO;
     }
 
-
-
+    public AccountHistoryDTO fromAccountHistory(BankAccount bankAccount, Page<AccountOperation> accountOperations) {
+        AccountHistoryDTO accountHistoryDTO = new AccountHistoryDTO();
+        List<AccountOperationDTO> accountOperationDTOList = accountOperations.getContent().stream()
+                .map(this::fromAccountOperation)
+                .collect(Collectors.toList());
+        accountHistoryDTO.setAccountOperationDTOList(accountOperationDTOList);
+        accountHistoryDTO.setAccountId(bankAccount.getId());
+        accountHistoryDTO.setBalance(bankAccount.getBalance());
+        accountHistoryDTO.setCurrentPage(accountOperations.getNumber());
+        accountHistoryDTO.setPageSize(accountOperations.getSize());
+        accountHistoryDTO.setTotalPages(accountOperations.getTotalPages());
+        return accountHistoryDTO;
+    }
 }
