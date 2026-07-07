@@ -5,9 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import ma.enset.ebankingapp.dtos.CustomerDTO;
 import ma.enset.ebankingapp.exceptions.CustomerNotFoundException;
 import ma.enset.ebankingapp.services.BankAccountService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +23,10 @@ public class CustomerRestController {
     @GetMapping("/customers/{id}")
     public CustomerDTO getCustomer(@PathVariable(name = "id") Long customerId) throws CustomerNotFoundException {
         return bankAccountService.getCustomer(customerId);
+    }
+
+    @PostMapping("/customers")
+    public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
+       return bankAccountService.saveCustomer(customerDTO);
     }
 }

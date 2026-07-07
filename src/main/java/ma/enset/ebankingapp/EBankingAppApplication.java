@@ -1,5 +1,6 @@
 package ma.enset.ebankingapp;
 
+import ma.enset.ebankingapp.dtos.CustomerDTO;
 import ma.enset.ebankingapp.entities.*;
 import ma.enset.ebankingapp.enums.AccountStatus;
 import ma.enset.ebankingapp.enums.OperationType;
@@ -31,10 +32,10 @@ public class EBankingAppApplication {
     CommandLineRunner commandLineRunner(BankAccountService bankAccountService){
         return args -> {
             Stream.of("Mehdi","Hassan","Khadija").forEach(name -> {
-                Customer customer = new Customer();
-                customer.setName(name);
-                customer.setEmail(name+"gmail.com");
-                bankAccountService.saveCustomer(customer);
+                CustomerDTO customerDTO = new CustomerDTO();
+                customerDTO.setName(name);
+                customerDTO.setEmail(name+"@gmail.com");
+                bankAccountService.saveCustomer(customerDTO);
             });
             bankAccountService.listCustomers().forEach(customer -> {
                 try {
