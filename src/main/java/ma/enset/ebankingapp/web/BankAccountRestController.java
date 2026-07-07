@@ -1,6 +1,7 @@
 package ma.enset.ebankingapp.web;
 
 import lombok.AllArgsConstructor;
+import ma.enset.ebankingapp.dtos.AccountOperationDTO;
 import ma.enset.ebankingapp.dtos.BankAccountDTO;
 import ma.enset.ebankingapp.entities.BankAccount;
 import ma.enset.ebankingapp.exceptions.BankAccountNotFoundException;
@@ -24,5 +25,10 @@ public class BankAccountRestController {
     @GetMapping("/accounts")
     public List<BankAccountDTO> listAccounts() {
         return bankAccountService.bankAccountList();
+    }
+
+    @GetMapping("/accounts/{accountId}/operations")
+    public List<AccountOperationDTO> getHistory(@PathVariable String accountId){
+        return bankAccountService.accountHistory(accountId);
     }
 }

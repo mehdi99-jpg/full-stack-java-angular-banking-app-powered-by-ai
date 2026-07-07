@@ -1,9 +1,6 @@
 package ma.enset.ebankingapp.services;
 
-import ma.enset.ebankingapp.dtos.BankAccountDTO;
-import ma.enset.ebankingapp.dtos.CurrentBankAccountDTO;
-import ma.enset.ebankingapp.dtos.CustomerDTO;
-import ma.enset.ebankingapp.dtos.SavingBankAccountDTO;
+import ma.enset.ebankingapp.dtos.*;
 import ma.enset.ebankingapp.exceptions.BalanceNotSufficentException;
 import ma.enset.ebankingapp.exceptions.BankAccountNotFoundException;
 import ma.enset.ebankingapp.exceptions.CustomerNotFoundException;
@@ -25,4 +22,6 @@ public interface BankAccountService {
     CustomerDTO updateCustomer(CustomerDTO customerDTO);
 
     void deleteCustomer(Long customerId);
+
+    List<AccountOperationDTO> accountHistory(String accountId);
 }

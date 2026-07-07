@@ -44,27 +44,24 @@ public class EBankingAppApplication {
                 try {
                     bankAccountService.saveCurrentBankAccount(Math.random()*90000,9000, customer.getId());
                     bankAccountService.saveSavingBankAccount(Math.random()*120000,4.5,customer.getId());
-                    List<BankAccountDTO> bankAccountList = bankAccountService.bankAccountList();
-                    for(BankAccountDTO bankAccount:bankAccountList){
-                        for(int i = 0 ; i < 10 ; i++){
-                            String accountId;
-                            if (bankAccount instanceof SavingBankAccountDTO){
-                                accountId=((SavingBankAccountDTO) bankAccount).getId();
-                            }else{
-                                accountId=((CurrentBankAccountDTO) bankAccount).getId();
-                            }
-                            bankAccountService.credit(accountId,10000+Math.random()*120000,"Credit");
-                            bankAccountService.debit(accountId,1000+Math.random()*9000,"Debit");
-                        }
 
-
-                    }
                 } catch (CustomerNotFoundException e) {
-                    e.printStackTrace();
-                } catch (BankAccountNotFoundException | BalanceNotSufficentException e){
                     e.printStackTrace();
                 }
             });
+            List<BankAccountDTO> bankAccountList = bankAccountService.bankAccountList();
+            for(BankAccountDTO bankAccount:bankAccountList){
+                for(int i = 0 ; i < 10 ; i++){
+                    String accountId;
+                    if (bankAccount instanceof SavingBankAccountDTO){
+                        accountId=((SavingBankAccountDTO) bankAccount).getId();
+                    }else{
+                        accountId=((CurrentBankAccountDTO) bankAccount).getId();
+                    }
+                    bankAccountService.credit(accountId,10000+Math.random()*120000,"Credit");
+                    bankAccountService.debit(accountId,1000+Math.random()*9000,"Debit");
+                }
+            }
         };
     }
 
