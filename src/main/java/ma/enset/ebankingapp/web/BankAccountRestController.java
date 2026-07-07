@@ -6,6 +6,7 @@ import ma.enset.ebankingapp.dtos.AccountOperationDTO;
 import ma.enset.ebankingapp.dtos.BankAccountDTO;
 import ma.enset.ebankingapp.dtos.CreditDTO;
 import ma.enset.ebankingapp.dtos.DebitDTO;
+import ma.enset.ebankingapp.dtos.TransferRequestDTO;
 import ma.enset.ebankingapp.entities.BankAccount;
 import ma.enset.ebankingapp.exceptions.BalanceNotSufficentException;
 import ma.enset.ebankingapp.exceptions.BankAccountNotFoundException;
@@ -51,5 +52,14 @@ public class BankAccountRestController {
     public CreditDTO credit(@RequestBody CreditDTO creditDTO) throws BankAccountNotFoundException, BalanceNotSufficentException {
         this.bankAccountService.credit(creditDTO.getAccountId(), creditDTO.getAmount(), creditDTO.getDescription());
         return creditDTO;
+    }
+
+    @PostMapping("/accounts/transfer")
+    public void transfer(@RequestBody TransferRequestDTO transferRequestDTO) throws BankAccountNotFoundException, BalanceNotSufficentException {
+        this.bankAccountService.transfer(
+                transferRequestDTO.getAccountSource(),
+                transferRequestDTO.getAccountDestination(),
+                transferRequestDTO.getAmount()
+        );
     }
 }
