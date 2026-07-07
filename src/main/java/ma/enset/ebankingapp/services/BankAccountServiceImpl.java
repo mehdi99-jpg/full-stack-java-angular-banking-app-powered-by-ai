@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -138,4 +137,9 @@ public class BankAccountServiceImpl implements BankAccountService{
         return bankAccountRepository.findAll();
     }
 
+    @Override
+    public CustomerDTO getCustomer(Long customerId) throws CustomerNotFoundException {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(()-> new CustomerNotFoundException("Customer Not found"));
+        return bankAccountMapper.fromCustomer(customer);
+    }
 }
