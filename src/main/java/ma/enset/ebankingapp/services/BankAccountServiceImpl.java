@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.enset.ebankingapp.dtos.*;
 import ma.enset.ebankingapp.entities.*;
+import ma.enset.ebankingapp.enums.AccountStatus;
 import ma.enset.ebankingapp.enums.OperationType;
 import ma.enset.ebankingapp.exceptions.BalanceNotSufficentException;
 import ma.enset.ebankingapp.exceptions.BankAccountNotFoundException;
@@ -57,6 +58,7 @@ public class BankAccountServiceImpl implements BankAccountService{
         currentAccount.setBalance(initialBalance);
         currentAccount.setOverDraft(overDraft);
         currentAccount.setCustomer(customer);
+        currentAccount.setStatus(AccountStatus.CREATED);
         CurrentAccount savedBankAccount = bankAccountRepository.save(currentAccount);
         return bankAccountMapper.fromCurrentBankAccount(savedBankAccount);
     }
@@ -77,6 +79,7 @@ public class BankAccountServiceImpl implements BankAccountService{
         savingAccount.setBalance(initialBalance);
         savingAccount.setInterestRate(interestRate);
         savingAccount.setCustomer(customer);
+        savingAccount.setStatus(AccountStatus.CREATED);
         SavingAccount savedBankAccount = bankAccountRepository.save(savingAccount);
         return bankAccountMapper.fromSavingBankAccount(savedBankAccount);
     }

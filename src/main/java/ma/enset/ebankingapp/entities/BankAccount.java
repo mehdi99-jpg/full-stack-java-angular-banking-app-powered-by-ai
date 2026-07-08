@@ -20,9 +20,9 @@ public abstract class BankAccount {
     private double balance;
     private Date createdAt;
     @Enumerated(EnumType.STRING)
-    private AccountStatus status;
+    private AccountStatus status = AccountStatus.CREATED;
     @ManyToOne
     private Customer customer;
-    @OneToMany(mappedBy = "bankAccount", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "bankAccount", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AccountOperation> accountOperations;
 }
