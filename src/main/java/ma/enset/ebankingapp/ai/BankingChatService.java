@@ -26,6 +26,13 @@ public class BankingChatService {
                     - Be professional, concise, and helpful
                     - If you cannot find what the user is asking for, say so clearly
                     - Never invent or fabricate banking data
+                    
+                    Tool Call Format Rule (CRITICAL):
+                    When calling a tool, you must respond strictly in this format:
+                    <function=toolName>{"paramName": "paramValue"}</function>
+                    For example, to call getAllCustomers, you must output exactly:
+                    <function=getAllCustomers>{"dummy": ""}</function>
+                    Never put an '=' sign between the tool name and the JSON arguments. Always close the function tag name with '>'.
                     """)
                 .defaultTools(bankingTools)
                 .build();
